@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Star, ArrowRight } from 'lucide-react';
+import { Star, Calendar, Clock, Sun, Moon, Heart, Sparkles, Users } from 'lucide-react';
 import teacher1 from '../images/teacher1.png';
 import teacher2 from '../images/teacher2.png';
 import teacher3 from '../images/teacher1.png';
@@ -18,18 +18,12 @@ import EnrollmentModal from './EnrollmentModal';
 const Hero = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const teacherAvatars = [
-    { src: teacher1, alt: 'Docente 1' },
-    { src: teacher2, alt: 'Docente 2' },
-    { src: teacher3, alt: 'Docente 3' },
-  ];
-
-  const partnerLogos = [
-    { src: sepLogo, alt: 'SEP' },
-    { src: richmondLogo, alt: 'Richmond' },
-    { src: edEnglishLogo, alt: 'ED English Discoveries' },
-    { src: toeicLogo, alt: 'TOEIC' },
-    { src: conniLogo, alt: 'CONNI' },
+  const schedules = [
+    { time: '11:30 am', label: 'Culto Matutino', day: 'Domingo', icon: Sun },
+    { time: '07:00 pm', label: 'Culto Vespertino', day: 'Domingo', icon: Moon },
+    { time: '07:30 pm', label: 'Miércoles de oración', day: 'Miércoles', icon: Heart },
+    { time: '07:30 pm', label: 'Celebremos la recuperación', day: 'Viernes', icon: Sparkles },
+    { time: '06:30 pm', label: 'Jóvenes (JNI)', day: 'Sábado', icon: Users },
   ];
 
   return (
@@ -51,13 +45,13 @@ const Hero = () => {
       <div className="mx-auto grid max-w-[1400px] grid-cols-1 items-center gap-8 px-4 sm:px-6 lg:grid-cols-12 lg:px-10">
         
         {/* Columna Izquierda */}
-        <div className="lg:col-span-7 space-y-6">
+        <div className="lg:col-span-7 space-y-4">
           <p className="text-sm font-normal text-[#9E9E9E]">
-            Templo Cristiano de Tuxtla
+            TCT
           </p>
           
-          <h1 className="text-2xl font-extrabold leading-[1.15] tracking-tight text-[#111111] sm:text-4xl lg:text-[40px]">
-            Bienvenido al<span className="text-[#1D35E1]"> Templo Cristiano de Tuxtla</span><br className="hidden sm:inline" /> tu casa, tu comunidad
+          <h1 className="text-3xl font-extrabold leading-[1.15] tracking-tight text-[#111111] sm:text-4xl lg:text-[40px]">
+            <span className="text-[#4fc1bd]"> Templo Cristiano de Tuxtla</span><br className="hidden sm:inline" /> tu casa, tu comunidad
           </h1>
           
           <p className="text-xs text-[#919191] font-normal leading-relaxed max-w-2xl">
@@ -65,71 +59,103 @@ const Hero = () => {
           </p>
           
           {/* Botones de Acción */}
-          <div className="flex flex-col gap-3 pt-2 sm:flex-row sm:flex-wrap">
+          <div className="flex flex-col gap-2.5 pt-2 sm:flex-row sm:flex-wrap sm:gap-3">
             <button 
               onClick={() => setIsModalOpen(true)}
-              className="px-6 py-2.5 bg-white border border-[#DCDCDC] text-[#222222] rounded-xl font-medium text-xs hover:bg-slate-50 transition shadow-2xs active:scale-95 cursor-pointer"
+              className="w-full sm:w-auto px-6 py-2.5 bg-[#4fc1bd] text-white rounded-xl font-bold text-xs hover:bg-[#3db0ac] transition shadow-sm active:scale-95 cursor-pointer text-center"
             >
               Inscribirme a ruta TCT
             </button>
-            <a
-              href="#cursos"
-              className="inline-flex items-center justify-center px-6 py-2.5 bg-[#F4F4F4] text-[#222222] rounded-xl font-medium text-xs hover:bg-[#EAEAEA] transition active:scale-95 cursor-pointer"
-            >
-            Ruta TCT
-            </a>
-            <a
-              href="#metodologia"
-              className="inline-flex items-center justify-center px-6 py-2.5 bg-[#F4F4F4] text-[#222222] rounded-xl font-medium text-xs hover:bg-[#EAEAEA] transition active:scale-95 cursor-pointer"
-            >
-              Equipo pastoral
-            </a>
+            
+            <div className="grid grid-cols-2 gap-2 sm:flex sm:gap-3">
+              <a
+                href="#cursos"
+                className="inline-flex items-center justify-center px-4 sm:px-6 py-2.5 bg-[#F4F4F4] text-[#222222] rounded-xl font-medium text-xs hover:bg-[#EAEAEA] transition active:scale-95 cursor-pointer text-center"
+              >
+                Ruta TCT
+              </a>
+              <a
+                href="#metodologia"
+                className="inline-flex items-center justify-center px-4 sm:px-6 py-2.5 bg-[#F4F4F4] text-[#222222] rounded-xl font-medium text-xs hover:bg-[#EAEAEA] transition active:scale-95 cursor-pointer text-center"
+              >
+                Equipo pastoral
+              </a>
+            </div>
           </div>
 
-          {/* Métricas y Prueba Social - Optimizado para móviles */}
-            <div className="grid grid-cols-3 gap-y-5 gap-x-3 pt-6 sm:flex sm:flex-wrap sm:items-center sm:gap-8 lg:gap-10 ">
-              
-              {/* Avatares */}
-              <div className="flex items-center gap-2 hidden lg:flex">
-                <div className="flex -space-x-2">
-                  {teacherAvatars.map((avatar, index) => (
-                    <img
-                      key={index}
-                      src={avatar.src}
-                      alt={avatar.alt}
-                      loading="lazy"
-                      decoding="async"
-                      className="inline-block h-8 w-8 sm:h-9 sm:w-9 rounded-full ring-2 ring-white object-cover"
-                    />
-                  ))}
-                </div>
-                <span className="text-xs sm:text-sm font-bold text-[#111111]">+20</span>
-              </div>
-
-              {/* SEP */}
-              <div className="text-center sm:text-left">
-                <span className="block text-sm sm:text-base font-bold text-[#111111] leading-tight">SEP</span>
-                <span className="block text-[9px] sm:text-[10px] text-[#A0A0A0] uppercase font-medium tracking-wider">
-                  Certificación
-                </span>
-              </div>
-              
-              {/* Valoración */}
-              <div className="text-center sm:text-left">
-                <span className="block text-sm sm:text-base font-bold text-[#111111] leading-tight">4.9★</span>
-                <span className="block text-[9px] sm:text-[10px] text-[#A0A0A0] uppercase font-medium tracking-wider">
-                  Valoración
-                </span>
-              </div>
-              
-              {/* Docentes */}
-              <div className="text-center sm:text-left">
-                <span className="block text-sm sm:text-base font-bold text-[#111111] leading-tight">20+</span>
-                <span className="block text-[9px] sm:text-[10px] text-[#A0A0A0] uppercase font-medium tracking-wider">
-                  Docentes
-                </span>
-              </div>
+          {/* ================= VISTA MÓVIL (sm:hidden) ================= */}
+          <div className="block sm:hidden pt-6">
+            <div className="flex items-center justify-between mb-3 px-1">
+              <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
+                <Calendar className="w-3.5 h-3.5 text-[#4fc1bd]" /> Horarios de Reunión
+              </span>
+              <span className="text-[10px] bg-[#4fc1bd]/10 text-[#4fc1bd] font-semibold px-2 py-0.5 rounded-full">
+                Presencial / Online
+              </span>
             </div>
+
+            <div className="space-y-2">
+              {schedules.map((item, index) => {
+                const IconComponent = item.icon;
+                return (
+                  <div
+                    key={index}
+                    className="flex items-center justify-between p-3 bg-slate-50/90 border border-slate-100 rounded-xl active:bg-slate-100/80 transition-colors"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="p-2 bg-white rounded-lg text-[#4fc1bd] shadow-2xs border border-slate-100">
+                        <IconComponent className="w-4 h-4" />
+                      </div>
+                      <div>
+                        <h4 className="text-xs font-bold text-[#111111] leading-tight">
+                          {item.label}
+                        </h4>
+                        <span className="text-[10px] text-[#808080] font-medium block mt-0.5">
+                          {item.day}
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="text-right shrink-0">
+                      <span className="inline-flex items-center gap-1 text-xs font-extrabold text-[#111111] bg-white px-2.5 py-1 rounded-lg border border-slate-200/60 shadow-2xs">
+                        <Clock className="w-3 h-3 text-[#4fc1bd]" />
+                        {item.time}
+                      </span>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* ================= VISTA DESKTOP (hidden sm:block) ================= */}
+          <div className="hidden sm:block pt-6 w-full">
+            <p className="text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-3">
+              Horarios de Reunión
+            </p>
+
+            <div className="grid grid-cols-5 gap-2.5 w-full py-1">
+              {schedules.map((item, index) => (
+                <div
+                  key={index}
+                  className="bg-slate-50/80 border border-slate-100 rounded-2xl p-3 shadow-xs hover:shadow-md hover:border-[#4fc1bd]/40 transition-all duration-200 cursor-default flex flex-col justify-between"
+                >
+                  <div>
+                    <span className="block text-[9px] font-bold text-[#4fc1bd] uppercase tracking-wide">
+                      {item.day}
+                    </span>
+                    <span className="block text-sm lg:text-base font-extrabold text-[#111111] leading-snug mt-0.5">
+                      {item.time}
+                    </span>
+                  </div>
+                  <span className="block text-[10px] text-[#808080] font-medium leading-tight mt-2 line-clamp-2">
+                    {item.label}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+
         </div>
 
         {/* Columna Derecha con Ondas e Íconos Flotantes */}
@@ -169,7 +195,7 @@ const Hero = () => {
             </div>
 
             <div 
-              className="absolute top-[48%] right-[20%] z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white p-2 shadow-md ring-1 ring-slate-100 transition hover:scale-110 cursor-pointer animate-floating"
+              className="absolute top-[48%] right-[20%] z-10 flex h-10 w-10 items-center justify-center rounded-full bg-[#FFFFFF] p-2 shadow-md ring-1 ring-slate-100 transition hover:scale-110 cursor-pointer animate-floating"
               style={{ animationDuration: '4.5s', animationDelay: '0.4s' }}
             >
               <img src={aulavLogo} alt="Aulav" className="h-5 w-5 object-contain" />
@@ -178,23 +204,7 @@ const Hero = () => {
         </div>
       </div>
 
-      {/* Franja de Logos */}
-      <div className="mt-10 border-t border-b border-gray-100 bg-white sm:mt-16">
-        <div className="mx-auto flex max-w-7xl items-center justify-between gap-x-6 overflow-x-auto px-4 py-8 sm:px-6 lg:px-10">
-          {partnerLogos.map((logo, index) => (
-            <img
-              key={index}
-              src={logo.src}
-              alt={logo.alt}
-              loading="lazy"
-              decoding="async"
-              className="h-6 shrink-0 object-contain"
-            />
-          ))}
-        </div>
-      </div>
-
-      {/* ================= MODAL DE INSCRIPCIÓN REUTILIZABLE ================= */}
+      {/* Modal de Inscripción */}
       <EnrollmentModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
 
     </section>

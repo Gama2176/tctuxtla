@@ -168,7 +168,7 @@ export default function PresencialModeArticle({ onGoBack }) {
             <div className="rounded-2xl border border-[#E4E4E7]/80 bg-white p-5 shadow-2xs space-y-4">
               
               <div className="space-y-1 text-center">
-                <span className="inline-block px-2 py-0.5 bg-blue-50 text-[#1D35E1] rounded-md text-[10px] font-bold">
+                <span className="inline-block px-2 py-0.5 bg-teal-50 text-[#4fc1bd] rounded-md text-[10px] font-bold">
                   Inscripciones Abiertas
                 </span>
                 <h3 className="text-sm font-bold text-[#111111]">
@@ -194,7 +194,7 @@ export default function PresencialModeArticle({ onGoBack }) {
 
                 <button
                   type="submit"
-                  className="w-full py-2 px-4 rounded-xl bg-[#1D35E1] text-white text-xs font-bold shadow-2xs hover:bg-blue-700 active:scale-95 transition cursor-pointer flex items-center justify-center gap-1.5"
+                  className="w-full py-2 px-4 rounded-xl bg-[#4fc1bd] text-white text-xs font-bold shadow-2xs hover:bg-[#337e7b] active:scale-95 transition cursor-pointer flex items-center justify-center gap-1.5"
                 >
                   <Send className="w-3 h-3" />
                   <span>Información Cursos Presenciales</span>

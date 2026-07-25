@@ -29,34 +29,37 @@ const Footer = ({ onNavigate }) => {
   };
 
   return (
-    <footer className="border-t border-[#E4E4E7]/60 bg-white text-[#111111]">
+    <footer className="border-t border-slate-100 bg-white text-[#111111]">
       {/* Sección Principal del Footer */}
-      <div className="mx-auto max-w-[1400px] px-4 py-12 sm:px-6 sm:py-16 lg:px-10">
+      <div className="mx-auto max-w-[1250px] px-4 py-12 sm:px-8 sm:py-16">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
           
-          {/* Columna Izquierda: Logo + Descripción + Status Badge (5 columnas) */}
+          {/* Columna Izquierda: Logo + Descripción + Badge Operativo (5 columnas) */}
           <div className="lg:col-span-5 space-y-5 pr-0 lg:pr-8">
             {/* Logo */}
             <div className="flex items-center gap-2">
               <img
                 src={logo}
-                alt="Euro Centro de Idiomas"
+                alt="Templo Cristiano de Tuxtla - TCT"
                 loading="lazy"
                 decoding="async"
-                className="h-12 w-auto object-contain sm:h-14"
+                className="h-11 w-auto object-contain sm:h-12"
               />
             </div>
 
             {/* Texto Descriptivo */}
-            <p className="text-xs xs:text-xs text-[#71717A] leading-relaxed max-w-sm">
-              Centro especializado en la enseñanza de idiomas. Desarrolla las cuatro habilidades lingüísticas con metodologías avanzadas y certificación.
+            <p className="text-xs text-[#808080] leading-relaxed max-w-sm">
+              Una comunidad cristiana enfocada en proclamar el Evangelio, formar discípulos y fortalecer la fe de las familias en Tuxtla y sus alrededores.
             </p>
 
-            {/* Badge Status (Punto Verde Operativo) */}
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#ECFDF5] border border-[#A7F3D0]/60">
-              <span className="w-2 h-2 rounded-full bg-[#10B981] animate-pulse"></span>
-              <span className="text-[11px] font-semibold text-[#047857]">
-                Inscripciones Abiertas, ¡Escríbenos!
+            {/* Badge Status (Punto Turquesa Operativo) */}
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#4fc1bd]/10 border border-[#4fc1bd]/20">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#4fc1bd] opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#4fc1bd]"></span>
+              </span>
+              <span className="text-[11px] font-bold text-slate-800">
+                ¡Te esperamos este domingo en nuestras reuniones!
               </span>
             </div>
           </div>
@@ -64,95 +67,92 @@ const Footer = ({ onNavigate }) => {
           {/* Columnas de Enlaces (7 columnas divididas en 4 secciones) */}
           <div className="lg:col-span-7 grid grid-cols-2 sm:grid-cols-4 gap-8">
             
-            {/* Columna 1: Institución */}
-            <div className="space-y-4">
-              <h4 className="text-sm font-bold text-[#111111] tracking-tight">
-                Institución
+            {/* Columna 1: Iglesia */}
+            <div className="space-y-3.5">
+              <h4 className="text-xs font-extrabold text-[#111111] uppercase tracking-wider">
+                Iglesia
               </h4>
-              <ul className="space-y-2.5 text-xs text-[#71717A]">
+              <ul className="space-y-2.5 text-xs text-[#808080] font-medium">
                 <li>
-                  <a href="#inicio" onClick={(e) => handleScroll(e, '#inicio')} className="hover:text-[#111111] transition-colors">Inicio</a>
+                  <a href="#inicio" onClick={(e) => handleScroll(e, '#inicio')} className="hover:text-[#4fc1bd] transition-colors">Inicio</a>
                 </li>
                 <li>
-                  <a href="#nosotros" onClick={(e) => handleScroll(e, '#nosotros')} className="hover:text-[#111111] transition-colors">Nosotros</a>
+                  <a href="#nosotros" onClick={(e) => handleScroll(e, '#nosotros')} className="hover:text-[#4fc1bd] transition-colors">Nosotros</a>
                 </li>
                 <li>
-                  <a href="#metodologia" onClick={(e) => handleScroll(e, '#metodologia')} className="hover:text-[#111111] transition-colors">Metodología</a>
+                  <a href="#metodologia" onClick={(e) => handleScroll(e, '#metodologia')} className="hover:text-[#4fc1bd] transition-colors">Nuestros Valores</a>
                 </li>
                 <li>
-                  <a href="#cursos" onClick={(e) => handleScroll(e, '#cursos')} className="hover:text-[#111111] transition-colors">Idiomas</a>
+                  <a href="#cursos" onClick={(e) => handleScroll(e, '#cursos')} className="hover:text-[#4fc1bd] transition-colors">Ministerios</a>
                 </li>
                 <li>
-                  <a href="#programas" onClick={(e) => handleScroll(e, '#programas')} className="hover:text-[#111111] transition-colors">Programas</a>
+                  <a href="#programas" onClick={(e) => handleScroll(e, '#programas')} className="hover:text-[#4fc1bd] transition-colors">Programas</a>
                 </li>
                 <li>
-                  <a href="#ubicacion" onClick={(e) => handleScroll(e, '#ubicacion')} className="hover:text-[#111111] transition-colors">¿Dónde estamos?</a>
+                  <a href="#ubicacion" onClick={(e) => handleScroll(e, '#ubicacion')} className="hover:text-[#4fc1bd] transition-colors">Ubicación</a>
                 </li>
               </ul>
             </div>
 
-            {/* Columna 2: Cursos */}
-            <div className="space-y-4">
-              <h4 className="text-sm font-bold text-[#111111] tracking-tight">
-                Cursos
+            {/* Columna 2: Ministerios */}
+            <div className="space-y-3.5">
+              <h4 className="text-xs font-extrabold text-[#111111] uppercase tracking-wider">
+                Ministerios
               </h4>
-              <ul className="space-y-2.5 text-xs text-[#71717A]">
+              <ul className="space-y-2.5 text-xs text-[#808080] font-medium">
                 <li>
-                  <a href="#english" onClick={(e) => handlePage(e, 'english')} className="hover:text-[#111111] transition-colors">Inglés</a>
+                  <a href="#english" onClick={(e) => handlePage(e, 'english')} className="hover:text-[#4fc1bd] transition-colors">Ruta TCT</a>
                 </li>
                 <li>
-                  <a href="#french" onClick={(e) => handlePage(e, 'french')} className="hover:text-[#111111] transition-colors">Francés</a>
+                  <a href="#french" onClick={(e) => handlePage(e, 'french')} className="hover:text-[#4fc1bd] transition-colors">TCT Jóvenes</a>
                 </li>
                 <li>
-                  <a href="#italian" onClick={(e) => handlePage(e, 'italian')} className="hover:text-[#111111] transition-colors">Italiano</a>
+                  <a href="#italian" onClick={(e) => handlePage(e, 'italian')} className="hover:text-[#4fc1bd] transition-colors">TCT Kids</a>
                 </li>
               </ul>
             </div>
 
-            {/* Columna 3: Programas */}
-            <div className="space-y-4">
-              <h4 className="text-sm font-bold text-[#111111] tracking-tight">
-                Programas
+            {/* Columna 3: Pasos de Fe */}
+            <div className="space-y-3.5">
+              <h4 className="text-xs font-extrabold text-[#111111] uppercase tracking-wider">
+                Pasos de Fe
               </h4>
-              <ul className="space-y-2.5 text-xs text-[#71717A]">
+              <ul className="space-y-2.5 text-xs text-[#808080] font-medium">
                 <li>
-                  <a href="#online" onClick={(e) => handlePage(e, 'online')} className="hover:text-[#111111] transition-colors">Modalidad Online</a>
+                  <a href="#online" onClick={(e) => handlePage(e, 'online')} className="hover:text-[#4fc1bd] transition-colors">Bautizos</a>
                 </li>
                 <li>
-                  <a href="#presencial" onClick={(e) => handlePage(e, 'presencial')} className="hover:text-[#111111] transition-colors">Modalidad Presencial</a>
+                  <a href="#presencial" onClick={(e) => handlePage(e, 'presencial')} className="hover:text-[#4fc1bd] transition-colors">Donaciones</a>
                 </li>
                 <li>
-                  <a href="#programas" onClick={(e) => handleScroll(e, '#programas')} className="hover:text-[#111111] transition-colors">EuroSelf</a>
+                  <a href="#programas" onClick={(e) => handleScroll(e, '#programas')} className="hover:text-[#4fc1bd] transition-colors">Discipulado</a>
                 </li>
                 <li>
-                  <a href="#programas" onClick={(e) => handleScroll(e, '#programas')} className="hover:text-[#111111] transition-colors">EuroKids</a>
+                  <a href="#programas" onClick={(e) => handleScroll(e, '#programas')} className="hover:text-[#4fc1bd] transition-colors">Servicio</a>
                 </li>
                 <li>
-                  <a href="#asesoria" onClick={(e) => handlePage(e, 'asesoria')} className="hover:text-[#111111] transition-colors">Asesorías</a>
+                  <a href="#asesoria" onClick={(e) => handlePage(e, 'asesoria')} className="hover:text-[#4fc1bd] transition-colors">Misiones (MNI)</a>
                 </li>
               </ul>
             </div>
 
             {/* Columna 4: Conecta */}
-            <div className="space-y-4">
-              <h4 className="text-sm font-bold text-[#111111] tracking-tight">
+            <div className="space-y-3.5">
+              <h4 className="text-xs font-extrabold text-[#111111] uppercase tracking-wider">
                 Conecta
               </h4>
-              <ul className="space-y-2.5 text-xs text-[#71717A]">
+              <ul className="space-y-2.5 text-xs text-[#808080] font-medium">
                 <li>
-                  <a href="https://www.facebook.com" target="_blank" rel="noreferrer" className="hover:text-[#111111] transition-colors">Facebook</a>
+                  <a href="https://www.facebook.com" target="_blank" rel="noreferrer" className="hover:text-[#4fc1bd] transition-colors">Facebook</a>
                 </li>
                 <li>
-                  <a href="https://www.instagram.com" target="_blank" rel="noreferrer" className="hover:text-[#111111] transition-colors">Instagram</a>
+                  <a href="https://www.instagram.com" target="_blank" rel="noreferrer" className="hover:text-[#4fc1bd] transition-colors">Instagram</a>
                 </li>
                 <li>
-                  <a href="https://www.linkedin.com" target="_blank" rel="noreferrer" className="hover:text-[#111111] transition-colors">LinkedIn</a>
+                  <a href="https://www.youtube.com" target="_blank" rel="noreferrer" className="hover:text-[#4fc1bd] transition-colors">YouTube</a>
                 </li>
                 <li>
-                  <a href="https://www.youtube.com" target="_blank" rel="noreferrer" className="hover:text-[#111111] transition-colors">YouTube</a>
-                </li>
-                <li>
-                  <a href="https://wa.me/521" target="_blank" rel="noreferrer" className="hover:text-[#111111] transition-colors">WhatsApp</a>
+                  <a href="https://wa.me/521" target="_blank" rel="noreferrer" className="hover:text-[#4fc1bd] transition-colors">WhatsApp</a>
                 </li>
               </ul>
             </div>
@@ -163,15 +163,15 @@ const Footer = ({ onNavigate }) => {
       </div>
 
       {/* Franja Inferior de Copyright y Legales */}
-      <div className="border-t border-[#E4E4E7]/60 bg-[#F4F4F5]/60 py-4 text-xs text-[#71717A]">
-        <div className="mx-auto flex max-w-[1400px] flex-col items-center justify-between gap-3 px-4 sm:flex-row sm:px-6 lg:px-10">
-          <p>© Copyright 2026 – Euro Centro de Idiomas.</p>
-          <div className="flex items-center gap-4">
-            <a href="#" className="hover:text-[#111111] transition-colors">
-              Términos y Condiciones
+      <div className="border-t border-slate-100 bg-slate-50/60 py-4 text-xs text-[#808080]">
+        <div className="mx-auto flex max-w-[1250px] flex-col items-center justify-between gap-3 px-4 sm:flex-row sm:px-8">
+          <p className="font-medium">© Copyright 2026 – Templo Cristiano de Tuxtla (TCT).</p>
+          <div className="flex items-center gap-4 font-medium">
+            <a href="#" className="hover:text-[#4fc1bd] transition-colors">
+              Términos de Uso
             </a>
-            <span>|</span>
-            <a href="#" className="hover:text-[#111111] transition-colors">
+            <span className="text-slate-300">|</span>
+            <a href="#" className="hover:text-[#4fc1bd] transition-colors">
               Aviso de Privacidad
             </a>
           </div>

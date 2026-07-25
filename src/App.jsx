@@ -3,13 +3,13 @@ import './index.css'
 import { Skeleton } from 'boneyard-js/react'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
-import AboutUs from './components/AboutUs'
-import CoursesAndModalities from './components/CoursesAndModalities'
-import Methodology from './components/Methodology'
-import ProgramsSection from './components/ProgramsSection'
+import Nosotros from './components/Nosotros'
+import Pastores from './components/Pastores'
+import Ministerios from './components/Ministerios'
+import Creemos from './components/Creemos'
+import DondeEstamos from './components/DondeEstamos'
 import ContactSection from './components/ContactSection'
-import WhereWeAreSection from './components/WhereWeAreSection'
-import FAQSection from './components/FAQSection'
+import FAQ from './components/FAQ'
 import Footer from './components/Footer'
 import Inscription from './components/Inscription'
 import WhatsAppButton from './components/WhatsAppButton'
@@ -81,28 +81,29 @@ export default function App() {
               <Hero />
             </Skeleton>
             <Skeleton name="about-section" loading={isMobile && isLoading} fallback={skeletonFallback}>
-              <AboutUs />
+              <Nosotros />
             </Skeleton>
             <Skeleton name="methodology-section" loading={isMobile && isLoading} fallback={skeletonFallback}>
-              <Methodology />
-            </Skeleton>
-            <Skeleton name="courses-section" loading={isMobile && isLoading} fallback={skeletonFallback}>
-              <CoursesAndModalities onNavigateCourse={(courseId) => handleNavigate(courseId)} />
+              <Creemos />
             </Skeleton>
             
-            {/* CORRECCIÓN AQUÍ: Se añade onNavigateCourse en ProgramsSection */}
+            {/* Pastores antes de Ministerios */}
             <Skeleton name="programs-section" loading={isMobile && isLoading} fallback={skeletonFallback}>
-              <ProgramsSection onNavigateCourse={(courseId) => handleNavigate(courseId)} />
+              <Pastores onNavigateCourse={(courseId) => handleNavigate(courseId)} />
             </Skeleton>
             
+            <Skeleton name="courses-section" loading={isMobile && isLoading} fallback={skeletonFallback}>
+              <Ministerios onNavigateCourse={(courseId) => handleNavigate(courseId)} />
+            </Skeleton>
+              <Skeleton name="where-we-are-section" loading={isMobile && isLoading} fallback={skeletonFallback}>
+            <DondeEstamos />
+            </Skeleton>
             <Skeleton name="contact-section" loading={isMobile && isLoading} fallback={skeletonFallback}>
               <ContactSection />
             </Skeleton>
-            <Skeleton name="where-we-are-section" loading={isMobile && isLoading} fallback={skeletonFallback}>
-              <WhereWeAreSection />
-            </Skeleton>
+
             <Skeleton name="faq-section" loading={isMobile && isLoading} fallback={skeletonFallback}>
-              <FAQSection />
+              <FAQ />
             </Skeleton>
           </>
         )}

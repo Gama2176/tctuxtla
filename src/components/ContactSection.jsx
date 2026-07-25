@@ -6,21 +6,21 @@ const ContactSection = () => {
     {
       icon: <Phone className="w-5 h-5 text-[#111111]" />,
       title: 'Llámanos',
-      description: 'Habla directamente con nuestro equipo de atención.',
+      description: 'Habla directamente con nuestro equipo de atención y pastoral.',
       actionText: '+52 961 123 4567',
       href: 'tel:+529611234567',
     },
     {
       icon: <Mail className="w-5 h-5 text-[#111111]" />,
       title: 'Correo Electrónico',
-      description: 'Escríbenos para informes sobre cursos e inscripciones.',
-      actionText: 'contacto@eurocentro.edu.mx',
-      href: 'mailto:contacto@eurocentro.edu.mx',
+      description: 'Escríbenos para dudas sobre reuniones, cursos y actividades.',
+      actionText: 'contacto@tct.org.mx',
+      href: 'mailto:contacto@tct.org.mx',
     },
     {
       icon: <MessageSquare className="w-5 h-5 text-[#111111]" />,
       title: 'Chat por WhatsApp',
-      description: 'Respuesta inmediata para resolver todas tus dudas.',
+      description: 'Respuesta rápida para resolver tus preguntas en minutos.',
       actionText: 'Iniciar conversación',
       href: 'https://wa.me/529611234567',
     },
@@ -34,26 +34,24 @@ const ContactSection = () => {
   ];
 
   return (
-    <section id="contacto" className="py-2 text-[#111111] sm:py-16 lg:py-8">
+    <section id="contacto" className="bg-white py-10 text-[#111111] sm:py-16">
       <div className="mx-auto max-w-[1150px] space-y-10 px-4 sm:px-8">
         
         {/* ================= ENCABEZADO ================= */}
-        <div className="space-y-3 max-w-xl">
-          {/* Badge Superior */}
-          <div className="inline-block px-3 py-1 bg-[#E2E8F0]/70 rounded-md">
-            <span className="text-[11px] font-bold text-[#2547eb] tracking-wide uppercase">
-              Contáctanos
-            </span>
-          </div>
+        <div className="space-y-2.5 max-w-xl">
+          {/* Pill Badge */}
+          <span className="inline-block text-[11px] font-bold text-[#4fc1bd] uppercase tracking-wider bg-[#4fc1bd]/10 px-3 py-1 rounded-full">
+            Contáctanos
+          </span>
 
           {/* Título */}
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-[#111111] tracking-tight">
+          <h2 className="text-2xl font-extrabold tracking-tight text-[#111111] sm:text-3xl lg:text-[34px]">
             Estamos aquí para ayudarte
           </h2>
 
           {/* Descripción */}
-          <p className="text-xs sm:text-sm text-[#71717A] leading-relaxed">
-            ¿Tienes preguntas sobre nuestros niveles, horarios o procesos de inscripción? Ponte en contacto con nosotros por el medio que prefieras.
+          <p className="text-xs sm:text-sm text-[#808080] font-normal leading-relaxed">
+            ¿Tienes preguntas sobre nuestras reuniones, ministerios o actividades? Ponte en contacto con nosotros por el medio que prefieras.
           </p>
         </div>
 
@@ -62,31 +60,31 @@ const ContactSection = () => {
           {contactMethods.map((method, index) => (
             <div
               key={index}
-              className="bg-white rounded-2xl p-6 border border-[#E4E4E7]/60 flex flex-col justify-between hover:shadow-sm transition-all duration-300"
+              className="group bg-slate-50/60 rounded-2xl p-6 border border-slate-100 flex flex-col justify-between hover:border-[#4fc1bd]/40 transition-all duration-300"
             >
               <div>
-                {/* Contenedor del Ícono (Gris Claro) */}
-                <div className="w-10 h-10 rounded-xl bg-[#F4F4F5] flex items-center justify-center mb-5">
+                {/* Contenedor del Ícono */}
+                <div className="w-10 h-10 rounded-xl bg-white border border-slate-100 flex items-center justify-center mb-5 group-hover:bg-[#4fc1bd]/10 transition-colors">
                   {method.icon}
                 </div>
 
                 {/* Título del Método */}
-                <h3 className="text-base font-bold text-[#111111] mb-1.5">
+                <h3 className="text-base font-extrabold text-[#111111] mb-1 tracking-tight">
                   {method.title}
                 </h3>
 
                 {/* Descripción Corta */}
-                <p className="text-[11px] sm:text-xs text-[#71717A] leading-relaxed mb-6">
+                <p className="text-xs text-[#707070] font-normal leading-relaxed mb-6">
                   {method.description}
                 </p>
               </div>
 
-              {/* Botón / Recuadro de Acción Inferior */}
+              {/* Botón de Acción Inferior */}
               <a
                 href={method.href}
                 target={method.href.startsWith('http') ? '_blank' : '_self'}
                 rel="noopener noreferrer"
-                className="w-full py-2.5 px-3 rounded-xl border border-[#E4E4E7] text-center text-xs font-semibold text-[#111111] hover:bg-[#F4F4F5] transition-colors truncate block"
+                className="w-full py-2.5 px-3 bg-white rounded-xl border border-slate-200 text-center text-xs font-bold text-[#111111] hover:bg-slate-100 hover:border-[#4fc1bd]/50 active:scale-95 transition-all truncate block shadow-2xs"
               >
                 {method.actionText}
               </a>
