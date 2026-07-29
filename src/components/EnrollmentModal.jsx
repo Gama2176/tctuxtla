@@ -1,263 +1,229 @@
-import React, { useState, useEffect } from 'react';
-import { X, ChevronDown } from 'lucide-react';
+import React, { useState } from 'react';
+import { X, Check, Loader2, ChevronDown } from 'lucide-react';
 import Swal from 'sweetalert2';
 
-const EnrollmentModal = ({ isOpen, onClose }) => {
-  const [isModalMounted, setIsModalMounted] = useState(false);
+// ⚠️ REEMPLAZA ESTA URL CON LA QUE TERMINA EN /exec QUE TE DIO GOOGLE APPS SCRIPT AL IMPLEMENTAR
+const GOOGLE_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbw1aDlDHBD0qADfZDaZNRgAHXu0Tv0z91PdzQt5FoOX5bdROIQFMhze5WJtuJxLO53bjw/exec';
+
+export default function EnrollmentModal({ isOpen, onClose }) {
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [isCustomLada, setIsCustomLada] = useState(false);
   const [formData, setFormData] = useState({
     fullName: '',
-    countryCode: '+52',
-    customCountryCode: '+',
+    countryCode: '+52', // Lada por defecto
+    customCountryCode: '+', // Para escribir lada manual
     phone: '',
-    baptized: '',
-    location: '',
+    baptized: 'No',
+    location: ''
   });
 
-  useEffect(() => {
-    if (isOpen) {
-      setIsModalMounted(true);
-      setTimeout(() => setIsModalMounted(true), 10);
-    } else {
-      setIsModalMounted(false);
-    }
-  }, [isOpen]);
-
-  useEffect(() => {
-    if (isModalMounted && isOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-    }
-    return () => {
-      document.body.style.overflow = 'unset';
-    };
-  }, [isModalMounted, isOpen]);
-
-  useEffect(() => {
-    if (document.getElementById('sweetalert2-custom-animations')) return;
-
-    const style = document.createElement('style');
-    style.id = 'sweetalert2-custom-animations';
-    style.innerHTML = `
-      @keyframes modalEnter {
-        0% { opacity: 0; transform: scale(0.95) translateY(10px); }
-        100% { opacity: 1; transform: scale(1) translateY(0); }
-      }
-
-      @keyframes modalExit {
-        0% { opacity: 1; transform: scale(1) translateY(0); }
-        100% { opacity: 0; transform: scale(0.95) translateY(10px); }
-      }
-
-      .swal2-modal-enter {
-        animation: modalEnter 300ms cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
-      }
-
-      .swal2-modal-exit {
-        animation: modalExit 200ms cubic-bezier(0.7, 0, 0.84, 0) forwards !important;
-      }
-
-      .swal2-styled-popup {
-        border-radius: 1rem !important;
-        border: 1px solid #E4E4E7 !important;
-        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1) !important;
-        font-family: inherit !important;
-      }
-
-      .swal2-backdrop-custom {
-        background: rgba(15, 23, 42, 0.4) !important;
-        backdrop-filter: blur(4px) !important;
-      }
-
-      .swal2-icon.swal2-success {
-        border-color: #4FC1BD !important;
-        color: #4FC1BD !important;
-      }
-
-      .swal2-icon.swal2-success [class^='swal2-success-line'] {
-        background-color: #4FC1BD !important;
-      }
-
-      .swal2-icon.swal2-success .swal2-success-ring {
-        border: 4px solid rgba(79, 193, 189, 0.2) !important;
-      }
-    `;
-
-    document.head.appendChild(style);
-  }, []);
-
-  const handleCloseModal = () => {
-    setIsModalMounted(false);
-    setTimeout(() => onClose(), 10);
-  };
+  if (!isOpen) return null;
 
   const handleChange = (e) => {
     const { name, value } = e.target;
 
+    // Lógica para el selector de Lada
     if (name === 'countryCode') {
       if (value === 'OTHER') {
         setIsCustomLada(true);
+        // Reseteamos la lada manual a '+' cuando eligen esta opción
+        setFormData((prev) => ({ ...prev, countryCode: value, customCountryCode: '+' }));
       } else {
         setIsCustomLada(false);
-        setFormData((prev) => ({ ...prev, countryCode: '+52' }));
+        setFormData((prev) => ({ ...prev, countryCode: value }));
       }
       return;
     }
 
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    // Lógica para escribir la lada manual
+    if (name === 'customCountryCode') {
+      // Asegurar que siempre empiece con '+'
+      let cleaned = value;
+      if (!value.startsWith('+')) {
+        cleaned = '+' + value.replace(/\+/g, '');
+      }
+      // Permitir solo números después del '+' y limitar longitud
+      cleaned = '+' + cleaned.substring(1).replace(/\D/g, '').substring(0, 4);
+      setFormData((prev) => ({ ...prev, customCountryCode: cleaned }));
+      return;
+    }
+
+    // Lógica para el número de teléfono
+    if (name === 'phone') {
+      // Elimina cualquier carácter que no sea un número
+      const cleaned = value.replace(/\D/g, '');
+      // Limita la entrada a un máximo de 10 dígitos (estándar común, ajusta si es necesario para internacional)
+      if (cleaned.length <= 10) {
+        setFormData((prev) => ({ ...prev, phone: cleaned }));
+      }
+    } else {
+      setFormData((prev) => ({ ...prev, [name]: value }));
+    }
   };
 
-  // =========================================================================
-  // ENVÍO DE FORMULARIO A WHATSAPP
-  // =========================================================================
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsSubmitting(true);
 
-    const whatsappNumber = "5571080066";
-
+    // Determinar la lada final a enviar
     const finalLada = isCustomLada ? formData.customCountryCode : formData.countryCode;
+    
+    // Validar que la lada manual no sea solo '+'
+    if (isCustomLada && (finalLada === '+' || finalLada.length < 2)) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Lada inválida',
+            text: 'Por favor, escribe un código de país válido (Ej. +1, +502).',
+            background: '#FFFFFF',
+            confirmButtonText: 'Corregir',
+            customClass: {
+                confirmButton: 'bg-[#4FC1BD] text-white font-bold py-2 px-6 rounded-xl cursor-pointer'
+            }
+        });
+        setIsSubmitting(false);
+        return;
+    }
+
     const fullPhone = `${finalLada} ${formData.phone}`;
 
-    const message = 
-      `*¡Hola! Me gustaría inscribirme a Ruta TCT.*\n\n` +
-      `*Mis Datos de Registro:*\n` +
-      `*Nombre:* ${formData.fullName}\n` +
-      `*Teléfono:* ${fullPhone}\n` +
-      `*¿Cuenta con bautismo?:* ${formData.baptized}\n` +
-      `*Ubicación:* ${formData.location}`;
+    // Payload enviado a Google Apps Script
+    const payload = {
+      formType: 'enrollment', // Identificador para el script
+      fullName: formData.fullName,
+      phone: fullPhone,
+      baptized: formData.baptized,
+      location: formData.location
+    };
 
-    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+    try {
+      // Petición no-cors para enviar los datos a Google Apps Script
+      await fetch(GOOGLE_SHEETS_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
+    } catch (error) {
+      console.error('Error enviando datos:', error);
+    }
 
-    window.open(whatsappUrl, '_blank');
+    setIsSubmitting(false);
+    onClose();
 
+    // Notificación SweetAlert2 estilizada
     Swal.fire({
       icon: 'success',
-      title: '¡Redirigiendo a WhatsApp!',
-      html: `
-        <p class="text-xs text-slate-500 mt-1">
-          Gracias, <strong class="text-slate-900">${formData.fullName}</strong>. Se ha abierto una pestaña para enviar tu registro de Ruta TCT directamente por WhatsApp.
-        </p>
-      `,
+      title: '¡Inscripción Exitosa!',
+      text: 'Tus datos han sido registrados adecuadamente. Nos pondremos en contacto contigo muy pronto.',
       background: '#FFFFFF',
-      buttonsStyling: false,
-      confirmButtonText: 'Entendido',
-      width: 400,
-      padding: '1.75rem',
-      showClass: { popup: 'swal2-modal-enter' },
-      hideClass: { popup: 'swal2-modal-exit' },
+      confirmButtonText: 'Excelente',
       customClass: {
-        container: 'swal2-backdrop-custom',
-        popup: 'swal2-styled-popup',
-        title: 'text-lg font-extrabold text-slate-900 tracking-tight',
-        htmlContainer: 'text-xs text-slate-500 mt-1 leading-relaxed',
-        confirmButton:
-          'w-full py-2.5 px-4 bg-[#4FC1BD] hover:bg-[#3db0ac] text-white rounded-xl font-bold text-xs transition-colors cursor-pointer mt-4 shadow-xs',
-      },
+        popup: 'rounded-2xl border border-slate-200 shadow-xl',
+        confirmButton: 'bg-[#4FC1BD] hover:bg-[#3db0ac] text-white font-bold py-2.5 px-6 rounded-xl cursor-pointer transition-colors'
+      }
     });
 
-    handleCloseModal();
+    // Reiniciar valores del formulario
+    setIsCustomLada(false);
     setFormData({
       fullName: '',
       countryCode: '+52',
       customCountryCode: '+',
       phone: '',
-      baptized: '',
-      location: '',
+      baptized: 'No',
+      location: ''
     });
   };
 
-  if (!isModalMounted && !isOpen) {
-    return null;
-  }
-
   return (
-    <div
-      className={`fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-xs transition-opacity duration-300 ease-out ${
-        isOpen ? 'opacity-100' : 'opacity-0'
-      }`}
-      onClick={handleCloseModal}
-    >
-      <div
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-xs animate-in fade-in duration-200">
+      <div 
+        className="relative w-full max-w-sm transform overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-xl transition-all"
         onClick={(e) => e.stopPropagation()}
-        className={`relative w-full max-w-lg rounded-2xl border border-slate-100 bg-white p-5 sm:p-6 shadow-2xl transition-all duration-300 ease-out ${
-          isOpen ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-4 scale-95'
-        }`}
       >
-        <button
-          onClick={handleCloseModal}
-          className="absolute top-4 right-4 flex h-8 w-8 items-center justify-center rounded-full bg-slate-50 text-slate-400 hover:bg-slate-100 hover:text-slate-700 transition cursor-pointer"
-        >
-          <X className="w-4 h-4" />
-        </button>
-
-        <div className="mb-4 pr-6">
-          <h3 className="text-xl font-extrabold text-slate-900 tracking-tight">
-            Inscríbete a Ruta TCT
-          </h3>
-          <p className="text-xs text-slate-500 mt-0.5">
-            Comienza tu camino de crecimiento espiritual y discipulado.
-          </p>
+        {/* Encabezado del Modal */}
+        <div className="flex items-center justify-between border-b border-slate-100 px-5 pt-5 pb-3">
+          <div>
+            <h3 className="text-base font-bold leading-tight text-slate-800">Inscripción a Ruta TCT</h3>
+            <p className="mt-0.5 text-[11px] text-slate-500">Completa tus datos para iniciar el proceso.</p>
+          </div>
+          <button
+            onClick={onClose}
+            className="cursor-pointer rounded-full p-1.5 text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-600"
+          >
+            <X className="h-4 w-4" />
+          </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-3">
+        {/* Cuerpo del Formulario */}
+        <form onSubmit={handleSubmit} className="space-y-3.5 p-5">
+          {/* Campo: Nombre Completo */}
           <div>
-            <label className="block text-[11px] font-semibold text-slate-700 mb-1">
-              Nombre(s) y Apellidos
+            <label className="mb-1 block text-[11px] font-semibold text-slate-700">
+              Nombre Completo
             </label>
             <input
               type="text"
               name="fullName"
               required
-              placeholder="Tu nombre completo"
+              placeholder="Ej. Juan Pérez"
               value={formData.fullName}
               onChange={handleChange}
-              className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 text-slate-800 placeholder:text-slate-400 focus:outline-none focus:border-[#4FC1BD] transition-colors bg-slate-50/30"
+              className="w-full rounded-xl border border-slate-200 bg-slate-50/30 px-3 py-2 text-xs text-slate-800 placeholder:text-slate-400 focus:border-[#4FC1BD] focus:outline-none"
             />
           </div>
 
+          {/* Campo: Teléfono con Lada Opcional */}
           <div>
-            <label className="block text-[11px] font-semibold text-slate-700 mb-1">
-              Número de Teléfono
+            <label className="mb-1 block text-[11px] font-semibold text-slate-700">
+              Número de Teléfono / WhatsApp
             </label>
-            <div className="flex items-center gap-2">
+            <div className="flex gap-1.5">
+              
+              {/* Selector o Input de Lada */}
               {!isCustomLada ? (
+                // Selector Lada por defecto (+52)
                 <div className="relative shrink-0">
                   <select
                     name="countryCode"
                     value={formData.countryCode}
                     onChange={handleChange}
-                    className="appearance-none pr-7 pl-2.5 py-2 bg-slate-100 border border-slate-200 rounded-xl text-xs font-semibold text-slate-800 focus:outline-none focus:border-[#4FC1BD] cursor-pointer"
+                    className="appearance-none flex select-none items-center gap-1 rounded-xl border border-slate-200 bg-slate-100 pl-2.5 pr-7 py-2 text-xs font-medium text-slate-600 cursor-pointer focus:outline-none focus:border-[#4FC1BD]"
                   >
                     <option value="+52">🇲🇽 +52</option>
                     <option value="OTHER">Otro...</option>
                   </select>
-                  <ChevronDown className="w-3.5 h-3.5 text-slate-400 absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none" />
+                  <ChevronDown className="h-3 w-3 text-slate-400 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
                 </div>
               ) : (
-                <div className="flex items-center shrink-0 gap-1">
-                  <input
-                    type="text"
-                    name="customCountryCode"
-                    required
-                    placeholder="+1"
-                    value={formData.customCountryCode}
-                    onChange={handleChange}
-                    className="w-16 px-2 py-2 bg-slate-100 border border-slate-200 rounded-xl text-xs font-semibold text-slate-800 focus:outline-none focus:border-[#4FC1BD]"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setIsCustomLada(false);
-                      setFormData((prev) => ({ ...prev, countryCode: '+52' }));
-                    }}
-                    className="text-xs text-[#4FC1BD] hover:underline font-bold px-1 cursor-pointer"
-                  >
-                    ✕
-                  </button>
+                // Input manual para otra Lada
+                <div className="flex items-center gap-1 shrink-0">
+                    <input
+                        type="text"
+                        name="customCountryCode"
+                        required
+                        placeholder="+1"
+                        value={formData.customCountryCode}
+                        onChange={handleChange}
+                        className="w-16 rounded-xl border border-slate-200 bg-slate-100 px-2.5 py-2 text-xs font-medium text-slate-800 focus:border-[#4FC1BD] focus:outline-none"
+                    />
+                    <button 
+                        type="button"
+                        onClick={() => {
+                            setIsCustomLada(false);
+                            setFormData(prev => ({...prev, countryCode: '+52'}))
+                        }}
+                        className="text-slate-400 hover:text-slate-600 cursor-pointer p-0.5"
+                        title="Volver a lada por defecto"
+                    >
+                        <X className="h-3.5 w-3.5"/>
+                    </button>
                 </div>
               )}
 
+              {/* Input del Número */}
               <input
                 type="tel"
                 name="phone"
@@ -265,33 +231,38 @@ const EnrollmentModal = ({ isOpen, onClose }) => {
                 placeholder="10 dígitos"
                 value={formData.phone}
                 onChange={handleChange}
-                className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 text-slate-800 placeholder:text-slate-400 focus:outline-none focus:border-[#4FC1BD] transition-colors bg-slate-50/30"
+                className="flex-1 rounded-xl border border-slate-200 bg-slate-50/30 px-3 py-2 text-xs text-slate-800 focus:border-[#4FC1BD] focus:outline-none"
               />
             </div>
           </div>
 
+          {/* Campo: ¿Está bautizado? */}
           <div>
-            <label className="block text-[11px] font-semibold text-slate-700 mb-1">
-              ¿Bautizado(a)?
+            <label className="mb-1.5 block text-[11px] font-semibold text-slate-700">
+              ¿Estás Bautizado/a?
             </label>
-            <div className="relative">
-              <select
-                name="baptized"
-                required
-                value={formData.baptized}
-                onChange={handleChange}
-                className="w-full appearance-none px-3 pr-8 py-2 text-xs rounded-xl border border-slate-200 text-slate-800 bg-slate-50/30 focus:outline-none focus:border-[#4FC1BD] transition-colors cursor-pointer"
-              >
-                <option value="" disabled>Seleccione...</option>
-                <option value="Sí">Sí</option>
-                <option value="No">No</option>
-              </select>
-              <ChevronDown className="w-3.5 h-3.5 text-slate-400 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+            <div className="grid grid-cols-2 gap-2">
+              {['Sí', 'No'].map((option) => (
+                <button
+                  type="button"
+                  key={option}
+                  onClick={() => setFormData((prev) => ({ ...prev, baptized: option }))}
+                  className={`flex cursor-pointer items-center justify-center gap-1.5 rounded-xl border py-1.5 px-3 text-xs font-medium transition-all ${
+                    formData.baptized === option
+                      ? 'border-[#4FC1BD] bg-[#4FC1BD]/10 font-semibold text-[#2c8582]'
+                      : 'border-slate-200 bg-slate-50/30 text-slate-600 hover:bg-slate-100'
+                  }`}
+                >
+                  {formData.baptized === option && <Check className="h-3.5 w-3.5" />}
+                  {option}
+                </button>
+              ))}
             </div>
           </div>
 
+          {/* Campo: Ubicación Manual (Texto) */}
           <div>
-            <label className="block text-[11px] font-semibold text-slate-700 mb-1">
+            <label className="mb-1 block text-[11px] font-semibold text-slate-700">
               ¿Dónde vives?
             </label>
             <input
@@ -301,22 +272,27 @@ const EnrollmentModal = ({ isOpen, onClose }) => {
               placeholder="Colonia, Ciudad o Municipio"
               value={formData.location}
               onChange={handleChange}
-              className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 text-slate-800 placeholder:text-slate-400 focus:outline-none focus:border-[#4FC1BD] transition-colors bg-slate-50/30"
+              className="w-full rounded-xl border border-slate-200 bg-slate-50/30 px-3 py-2 text-xs text-slate-800 placeholder:text-slate-400 focus:border-[#4FC1BD] focus:outline-none"
             />
           </div>
 
-          <div className="pt-2">
-            <button
-              type="submit"
-              className="w-full py-2.5 bg-[#4FC1BD] text-white rounded-xl font-bold text-sm hover:bg-[#3db0ac] transition-colors shadow-xs cursor-pointer"
-            >
-              Enviar
-            </button>
-          </div>
+          {/* Botón de Envío */}
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            className="shadow-xs cursor-pointer flex w-full mt-2 items-center justify-center gap-2 rounded-xl bg-[#4FC1BD] py-2.5 text-xs font-bold text-white transition-colors hover:bg-[#3db0ac] disabled:opacity-70"
+          >
+            {isSubmitting ? (
+              <>
+                <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                <span>Enviando...</span>
+              </>
+            ) : (
+              <span>Confirmar Inscripción</span>
+            )}
+          </button>
         </form>
       </div>
     </div>
   );
-};
-
-export default EnrollmentModal;
+}

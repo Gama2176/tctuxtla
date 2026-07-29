@@ -1,21 +1,9 @@
 import React, { useState } from 'react';
-import { Star, Calendar, Clock, Sun, Moon, Heart, Sparkles, Users } from 'lucide-react';
-import teacher1 from '../images/teacher1.png';
-import teacher2 from '../images/teacher2.png';
-import teacher3 from '../images/teacher1.png';
-import sepLogo from '../images/sep-logo.svg';
-import richmondLogo from '../images/richmond-logo.svg';
-import edEnglishLogo from '../images/ed-logo.svg';
-import toeicLogo from '../images/toeic-logo.svg';
-import conniLogo from '../images/cenni-logo.svg';
-import cognoLogo from '../images/cogno.svg';
-import aulavLogo from '../images/aulav.svg';
-import youtubeLogo from '../images/youtube.svg';
-import zoomLogo from '../images/zoom.svg';
-import starIcon from '../images/star.svg';
+import { Calendar, Clock, Sun, Moon, Heart, Sparkles, Users } from 'lucide-react';
+import iconTct from '../images/icon-tct.svg';
 import EnrollmentModal from './EnrollmentModal';
 
-const Hero = () => {
+const Hero = ({ onNavigate }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const schedules = [
@@ -31,13 +19,13 @@ const Hero = () => {
       <style>{`
         @keyframes float {
           0%, 100% {
-            transform: translateY(0px) rotate(0deg);
+            transform: translateY(0px);
           }
           50% {
-            transform: translateY(-8px) rotate(2deg);
+            transform: translateY(-10px);
           }
         }
-        .animate-floating {
+        .animate-floating-slow {
           animation: float 4s ease-in-out infinite;
         }
       `}</style>
@@ -68,18 +56,20 @@ const Hero = () => {
             </button>
             
             <div className="grid grid-cols-2 gap-2 sm:flex sm:gap-3">
-              <a
-                href="#cursos"
+              <button
+                type="button"
+                onClick={() => onNavigate && onNavigate('ruta-tct')}
                 className="inline-flex items-center justify-center px-4 sm:px-6 py-2.5 bg-[#F4F4F4] text-[#222222] rounded-xl font-medium text-xs hover:bg-[#EAEAEA] transition active:scale-95 cursor-pointer text-center"
               >
                 Ruta TCT
-              </a>
-              <a
-                href="#metodologia"
+              </button>
+              <button
+                type="button"
+                onClick={() => onNavigate && onNavigate('transmisiones')}
                 className="inline-flex items-center justify-center px-4 sm:px-6 py-2.5 bg-[#F4F4F4] text-[#222222] rounded-xl font-medium text-xs hover:bg-[#EAEAEA] transition active:scale-95 cursor-pointer text-center"
               >
-                Equipo pastoral
-              </a>
+                Transmisiones en vivo
+              </button>
             </div>
           </div>
 
@@ -158,50 +148,17 @@ const Hero = () => {
 
         </div>
 
-        {/* Columna Derecha con Ondas e Íconos Flotantes */}
-        <div className="lg:col-span-5 flex items-center justify-center p-2 hidden lg:flex">
-          <div className="relative flex aspect-square w-full max-w-[300px] items-center justify-center sm:max-w-[380px]">
-            <div className="absolute inset-0 bg-slate-200/50 rounded-full animate-ping opacity-10 scale-120 duration-1000"></div>
-            <div className="absolute inset-6 bg-slate-100/60 rounded-full animate-pulse opacity-30"></div>
-
-            <div className="absolute inset-0 bg-[#F9F9F9] rounded-full border border-[#F0F0F0]"></div>
-            <div className="absolute inset-8 bg-[#F2F2F2]/80 rounded-full border border-[#E6E6E6]"></div>
-            <div className="absolute inset-16 bg-[#EBEBEB]/80 rounded-full border border-[#DCDCDC]"></div>
-            <div className="absolute inset-24 bg-[#E0E0E0]/60 rounded-full border border-[#D0D0D0]"></div>
-
-            <div className="absolute inset-0 flex items-center justify-center z-10">
-              <img src={starIcon} alt="Star" className="h-7 w-7" />
-            </div>
-
-            <div 
-              className="absolute top-[18%] left-[14%] z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white p-2 shadow-md ring-1 ring-slate-100 transition hover:scale-110 cursor-pointer animate-floating"
-              style={{ animationDuration: '3.8s', animationDelay: '0s' }}
-            >
-              <img src={cognoLogo} alt="Cogno" className="h-5 w-5 object-contain" />
-            </div>
-
-            <div 
-              className="absolute top-[10%] right-[22%] z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white p-2 shadow-md ring-1 ring-slate-100 transition hover:scale-110 cursor-pointer animate-floating"
-              style={{ animationDuration: '4.2s', animationDelay: '0.8s' }}
-            >
-              <img src={youtubeLogo} alt="Youtube" className="h-5 w-5 object-contain" />
-            </div>
-
-            <div 
-              className="absolute bottom-[18%] left-[26%] z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white p-2 shadow-md ring-1 ring-slate-100 transition hover:scale-110 cursor-pointer animate-floating"
-              style={{ animationDuration: '3.5s', animationDelay: '1.4s' }}
-            >
-              <img src={zoomLogo} alt="Zoom" className="h-5 w-5 object-contain" />
-            </div>
-
-            <div 
-              className="absolute top-[48%] right-[20%] z-10 flex h-10 w-10 items-center justify-center rounded-full bg-[#FFFFFF] p-2 shadow-md ring-1 ring-slate-100 transition hover:scale-110 cursor-pointer animate-floating"
-              style={{ animationDuration: '4.5s', animationDelay: '0.4s' }}
-            >
-              <img src={aulavLogo} alt="Aulav" className="h-5 w-5 object-contain" />
-            </div>
+        {/* Columna Derecha: Exclusiva para Desktop con SVG Flotante en Tamaño Adecuado */}
+        <div className="hidden lg:col-span-5 lg:flex items-center justify-center p-4">
+          <div className="relative flex items-center justify-center w-full max-w-[180px] animate-floating-slow">
+            <img 
+              src={iconTct} 
+              alt="Logo TCT" 
+              className="w-full h-auto object-contain select-none drop-shadow-xs"
+            />
           </div>
         </div>
+
       </div>
 
       {/* Modal de Inscripción */}

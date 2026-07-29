@@ -1,8 +1,8 @@
 import React from 'react';
 import { MapPin, MessageCircle } from 'lucide-react';
-import graduado from '../images/graduado.svg';
-import satisfaccion from '../images/satisfaccion.svg';
-import presyon from '../images/presyon.svg';
+import graduado from '../images/historias-tct.jpg';
+import satisfaccion from '../images/vidas-tct.jpg';
+import presyon from '../images/presyon.jpg';
 
 const WhereWeAreSection = () => {
   return (

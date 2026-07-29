@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ChevronRight, Sparkles, HeartHandshake, Music } from 'lucide-react';
+import { ChevronRight } from 'lucide-react';
 import { Skeleton } from 'boneyard-js/react';
 
 // Importación de imágenes
@@ -15,19 +15,18 @@ const ProgramsSection = ({ onNavigateCourse }) => {
     const timeout = setTimeout(() => {
       setPrograms([
         {
-          id: 'euroself',
-          badge: 'Pastores de Jóvenes',
+          id: 'pastores-juveniles',
+          badge: 'Pastores Juveniles',
           roleText: 'Ministerio Juvenil TCT',
           title: 'Arcelia Tercero y Fredy Castellanos',
           image: pastoresjovenes,
         },
         {
-          id: 'eurokids',
+          id: 'arely-coyoc',
           badge: 'Directora de Alabanza',
           roleText: 'Ministerio de Adoración',
           title: 'Arely Coyoc',
           image: pastoraalabanza,
-          href: 'https://www.eurokidsidiomas.com/',
         },
       ]);
       setIsLoading(false);
@@ -102,13 +101,14 @@ const ProgramsSection = ({ onNavigateCourse }) => {
 
                 {/* Botón */}
                 <div className="pt-2">
-                  <a
-                    href="#cursos"
+                  <button
+                    type="button"
+                    onClick={() => onNavigateCourse && onNavigateCourse('german-pastor')}
                     className="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-white text-slate-900 rounded-xl text-xs font-extrabold hover:bg-slate-100 active:scale-95 transition-all shadow-md w-full sm:w-auto"
                   >
                     Conoce más acerca de ellos
                     <ChevronRight className="w-4 h-4 text-slate-700" />
-                  </a>
+                  </button>
                 </div>
 
               </div>
@@ -137,7 +137,6 @@ const ProgramsSection = ({ onNavigateCourse }) => {
                   
                   {/* Badge Glassmorphism */}
                   <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-white/10 backdrop-blur-md border border-white/20 rounded-full">
-                    {program.icon}
                     <span className="text-[10px] font-bold tracking-wider uppercase text-white/90">
                       {program.badge}
                     </span>
@@ -155,26 +154,14 @@ const ProgramsSection = ({ onNavigateCourse }) => {
 
                   {/* Botón */}
                   <div className="pt-2">
-                    {program.href ? (
-                      <a
-                        href={program.href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-white text-slate-900 rounded-xl text-xs font-extrabold hover:bg-slate-100 active:scale-95 transition-all shadow-md w-full sm:w-auto"
-                      >
-                        Conoce más acerca de ellos
-                        <ChevronRight className="w-4 h-4 text-slate-700" />
-                      </a>
-                    ) : (
                       <button
-                        type="button"
-                        onClick={() => onNavigateCourse && onNavigateCourse(program.id)}
-                        className="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-white text-slate-900 rounded-xl text-xs font-extrabold hover:bg-slate-100 active:scale-95 transition-all shadow-md w-full sm:w-auto"
-                      >
-                        Conoce más acerca de ellos
-                        <ChevronRight className="w-4 h-4 text-slate-700" />
-                      </button>
-                    )}
+                      type="button"
+                      onClick={() => onNavigateCourse && onNavigateCourse(program.id)}
+                      className="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-white text-slate-900 rounded-xl text-xs font-extrabold hover:bg-slate-100 active:scale-95 transition-all shadow-md w-full sm:w-auto"
+                    >
+                      Conoce más acerca de ellos
+                      <ChevronRight className="w-4 h-4 text-slate-700" />
+                    </button>
                   </div>
 
                 </div>

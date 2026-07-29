@@ -40,19 +40,19 @@ export default function WhatsAppButton() {
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Contactar por WhatsApp a TCT"
-      className={`group fixed bottom-5 right-5 z-50 flex items-center rounded-full border border-slate-200/80 bg-white p-2 text-[#111111] shadow-lg shadow-slate-200/60 transition-all duration-500 ease-in-out hover:border-emerald-300 hover:bg-emerald-50/40 hover:shadow-xl active:scale-95 cursor-pointer ${
+      className={`group fixed bottom-5 right-5 z-50 flex items-center rounded-full border border-slate-200/80 bg-white p-2 text-[#111111] shadow-lg shadow-slate-200/60 transition-all duration-500 ease-in-out hover:border-[#4FC1BD] hover:bg-[#4FC1BD]-50/40 hover:shadow-xl active:scale-95 cursor-pointer ${
         isExpanded ? 'pr-4' : 'pr-2'
       }`}
     >
       {/* Icono en contenedor verde con punto de estado */}
-      <div className="relative flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-emerald-500 text-white shadow-2xs">
-        <MessageCircle className="h-4 h-4 fill-white text-emerald-500" />
+      <div className="relative flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#4FC1BD] text-white shadow-2xs">
+        <MessageCircle className="h-4 h-4 fill-white text-[#4FC1BD]" />
         
         {/* Punto pulsante cuando el texto está oculto */}
         {!isExpanded && (
           <span className="absolute -top-0.5 -right-0.5 flex h-2.5 w-2.5">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500 border border-white"></span>
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#4FC1BD] opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#4FC1BD] border border-white"></span>
           </span>
         )}
       </div>
@@ -67,7 +67,7 @@ export default function WhatsAppButton() {
       >
         <div className="overflow-hidden whitespace-nowrap">
           <span className="text-xs font-extrabold tracking-tight text-slate-800">
-            ¿Dudas? <span className="text-emerald-600 font-extrabold">Escríbenos</span>
+            ¿Dudas? <span className="text-[#4FC1BD] font-extrabold">Escríbenos</span>
           </span>
         </div>
       </div>

@@ -1,5 +1,5 @@
 import React from 'react';
-import logo from '../images/logo-ecim.svg';
+import logo from '../images/logo-tct.svg';
 
 const Footer = ({ onNavigate }) => {
   const scrollToSection = (href) => {
@@ -43,7 +43,7 @@ const Footer = ({ onNavigate }) => {
                 alt="Templo Cristiano de Tuxtla - TCT"
                 loading="lazy"
                 decoding="async"
-                className="h-11 w-auto object-contain sm:h-12"
+                className="h-7 w-auto object-contain sm:h-8"
               />
             </div>
 
@@ -59,7 +59,7 @@ const Footer = ({ onNavigate }) => {
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-[#4fc1bd]"></span>
               </span>
               <span className="text-[11px] font-bold text-slate-800">
-                ¡Te esperamos este domingo en nuestras reuniones!
+                Templo Cristiano de Tuxtla
               </span>
             </div>
           </div>
@@ -101,13 +101,13 @@ const Footer = ({ onNavigate }) => {
               </h4>
               <ul className="space-y-2.5 text-xs text-[#808080] font-medium">
                 <li>
-                  <a href="#english" onClick={(e) => handlePage(e, 'english')} className="hover:text-[#4fc1bd] transition-colors">Ruta TCT</a>
+                  <a href="#ruta-tct" onClick={(e) => handlePage(e, 'ruta-tct')} className="hover:text-[#4fc1bd] transition-colors">Ruta TCT</a>
                 </li>
                 <li>
-                  <a href="#french" onClick={(e) => handlePage(e, 'french')} className="hover:text-[#4fc1bd] transition-colors">TCT Jóvenes</a>
+                  <a href="#tct-jovenes" onClick={(e) => handlePage(e, 'tct-jovenes')} className="hover:text-[#4fc1bd] transition-colors">TCT Jóvenes</a>
                 </li>
                 <li>
-                  <a href="#italian" onClick={(e) => handlePage(e, 'italian')} className="hover:text-[#4fc1bd] transition-colors">TCT Kids</a>
+                  <a href="#tct-kids" onClick={(e) => handlePage(e, 'tct-kids')} className="hover:text-[#4fc1bd] transition-colors">TCT Kids</a>
                 </li>
               </ul>
             </div>
@@ -119,19 +119,19 @@ const Footer = ({ onNavigate }) => {
               </h4>
               <ul className="space-y-2.5 text-xs text-[#808080] font-medium">
                 <li>
-                  <a href="#online" onClick={(e) => handlePage(e, 'online')} className="hover:text-[#4fc1bd] transition-colors">Bautizos</a>
+                  <a href="#bautizos" onClick={(e) => handlePage(e, 'bautizos')} className="hover:text-[#4fc1bd] transition-colors">Bautizos</a>
                 </li>
                 <li>
-                  <a href="#presencial" onClick={(e) => handlePage(e, 'presencial')} className="hover:text-[#4fc1bd] transition-colors">Donaciones</a>
+                  <a href="#donaciones" onClick={(e) => handlePage(e, 'donaciones')} className="hover:text-[#4fc1bd] transition-colors">Donaciones</a>
                 </li>
                 <li>
-                  <a href="#programas" onClick={(e) => handleScroll(e, '#programas')} className="hover:text-[#4fc1bd] transition-colors">Discipulado</a>
+                  <a href="#misiones-mni" onClick={(e) => handlePage(e, 'misiones-mni')} className="hover:text-[#4fc1bd] transition-colors">Misiones (MNI)</a>
                 </li>
                 <li>
                   <a href="#programas" onClick={(e) => handleScroll(e, '#programas')} className="hover:text-[#4fc1bd] transition-colors">Servicio</a>
                 </li>
                 <li>
-                  <a href="#asesoria" onClick={(e) => handlePage(e, 'asesoria')} className="hover:text-[#4fc1bd] transition-colors">Misiones (MNI)</a>
+                  <a href="#misiones-mni" onClick={(e) => handlePage(e, 'misiones-mni')} className="hover:text-[#4fc1bd] transition-colors">Misiones (MNI)</a>
                 </li>
               </ul>
             </div>

@@ -1,24 +1,21 @@
 import React from 'react';
-import { ChevronRight, Laptop, Building2, GraduationCap } from 'lucide-react';
+import { ChevronRight } from 'lucide-react';
 
 // Importación de banderas e imágenes
-import us from '../images/us.png';
-import fr from '../images/fr.png';
-import it from '../images/it.png';
+import us from '../images/icon-tct.svg';
+import fr from '../images/icon-tct.svg';
+import it from '../images/icon-tct.svg';
 
 // Importación de imágenes corregidas (sintaxis camelCase)
 import rutatct from '../images/ruta-tct.jpg';
 import tctjovenes from '../images/tct-jovenes.jpg';
 import tctkids from '../images/tct-kids.jpg';
 import bautizostct from '../images/bautizos-tct.jpg';
-// import ofrendastct from '../images/ofrendas-tct.jpg';
-import misionerostct from '../images/misioneros-tct.jpg';
-import ejemploImg from '../images/ejemplo.png';
-
+import ofrendastct from '../images/ofrendas-tct.jpg';
 const CoursesAndModalities = ({ onNavigateCourse }) => {
   const courses = [
     {
-      id: 'english',
+      id: 'ruta-tct',
       cardImage: rutatct,
       imageAlt: 'Ruta TCT',
       flagSrc: us,
@@ -28,7 +25,7 @@ const CoursesAndModalities = ({ onNavigateCourse }) => {
       description: 'Un proceso de discipulado y enseñanza por etapas diseñado para guiarte desde tus primeros pasos de fe hasta descubrir tus dones.',
     },
     {
-      id: 'french',
+      id: 'tct-jovenes',
       cardImage: tctjovenes,
       imageAlt: 'TCT Jóvenes',
       flagSrc: fr,
@@ -38,7 +35,7 @@ const CoursesAndModalities = ({ onNavigateCourse }) => {
       description: 'Una comunidad vibrante donde la juventud encuentra amistad sincera, alabanza apasionada y enseñanzas relevantes.',
     },
     {
-      id: 'italian',
+      id: 'tct-kids',
       cardImage: tctkids,
       imageAlt: 'TCT Kids',
       flagSrc: it,
@@ -51,31 +48,18 @@ const CoursesAndModalities = ({ onNavigateCourse }) => {
 
   const modalities = [
     {
-      id: 'online',
+      id: 'bautizos',
       cardImage: bautizostct,
       imageAlt: 'Bautizos',
-      icon: <Laptop className="w-3.5 h-3.5 text-cyan-300" />,
       title: 'Bautizos',
-      level: 'TCT',
       description: 'Un momento especial de celebración y testimonio público donde declaras tu decisión de seguir a Jesús.',
     },
     {
-      id: 'presencial',
-      cardImage: ejemploImg,
+      id: 'donaciones',
+      cardImage: ofrendastct,
       imageAlt: 'Donaciones y Ofrendas',
-      icon: <Building2 className="w-3.5 h-3.5 text-emerald-300" />,
       title: 'Donaciones y Ofrendas',
-      level: 'TCT',
       description: 'Apoya la visión, la obra social y el crecimiento de la iglesia a través de tus diezmos y ofrendas voluntarias.',
-    },
-    {
-      id: 'asesoria',
-      cardImage: misionerostct,
-      imageAlt: 'MNI',
-      icon: <GraduationCap className="w-3.5 h-3.5 text-amber-300" />,
-      title: 'MNI (Misioneros Nazarenos)',
-      level: 'TCT',
-      description: 'Conéctate con la red global de misiones que moviliza y apoya a misioneros para llevar esperanza y el Evangelio.',
     },
   ];
 
@@ -121,16 +105,12 @@ const CoursesAndModalities = ({ onNavigateCourse }) => {
                     <img
                       src={course.flagSrc}
                       alt={course.flagAlt}
-                      className="w-4 h-2.5 object-cover rounded-xs"
+                      className="w-2 h-2.5 object-cover rounded-xs"
                     />
                     <span className="text-[10px] font-bold text-white tracking-wider">
                       {course.flagAlt}
                     </span>
                   </div>
-
-                  <span className="px-2.5 py-1 bg-white/10 backdrop-blur-md border border-white/20 rounded-full text-[10px] font-extrabold text-white tracking-wider">
-                    {course.level}
-                  </span>
                 </div>
 
                 {/* Pie de la Tarjeta (Texto y Botón) */}
@@ -195,15 +175,10 @@ const CoursesAndModalities = ({ onNavigateCourse }) => {
                 {/* Encabezado de la Tarjeta (Icono y Nivel) */}
                 <div className="relative z-10 flex items-center justify-between">
                   <div className="flex items-center gap-1.5 px-2.5 py-1 bg-white/10 backdrop-blur-md border border-white/20 rounded-full">
-                    {modality.icon}
                     <span className="text-[10px] font-bold text-white tracking-wider">
                       {modality.imageAlt}
                     </span>
                   </div>
-
-                  <span className="px-2.5 py-1 bg-white/10 backdrop-blur-md border border-white/20 rounded-full text-[10px] font-extrabold text-white tracking-wider">
-                    {modality.level}
-                  </span>
                 </div>
 
                 {/* Pie de la Tarjeta (Texto y Botón) */}

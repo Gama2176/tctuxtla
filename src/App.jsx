@@ -11,27 +11,36 @@ import DondeEstamos from './components/DondeEstamos'
 import ContactSection from './components/ContactSection'
 import FAQ from './components/FAQ'
 import Footer from './components/Footer'
-import Inscription from './components/Inscription'
+import LiveStreams from './components/LiveStreams'
 import WhatsAppButton from './components/WhatsAppButton'
 
 // Import de los artículos de idiomas
-import EnglishProgramArticle from './components/EnglishProgramArticle'
-import FrenchProgramArticle from './components/FrenchProgramArticle'
-import ItalianProgramArticle from './components/ItalianProgramArticle'
-import OnlineModeArticle from './components/OnlineModeArticle'
-import PresencialModeArticle from './components/PresencialModeArticle'
-import AcademicAdvisingArticle from './components/AcademicAdvisingArticle'
-import EuroSelfArticle from './components/EuroSelfArticle'
+import RutaTCTArticle from './components/RutaTCTArticle'
+import TCTJovenesArticle from './components/TCTJovenesArticle'
+import TCTKidsArticle from './components/TCTKidsArticle'
+import BautizosArticle from './components/BautizosArticle'
+import DonacionesArticle from './components/DonacionesArticle'
+import PastoresJuvenilesArticle from './components/PastoresJuvenilesArticle'
+import GermanPastorArticle from './components/GermanPastorArticle'
+import ArelyCoyocArticle from './components/ArelyCoyocArticle'
 
 export default function App() {
   const [currentView, setCurrentView] = useState('home')
   const [isMobile, setIsMobile] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
+  const [scrollTarget, setScrollTarget] = useState(null)
 
-  const handleNavigate = (view) => {
-    if (view === currentView) return
-    setCurrentView(view)
+  const handleNavigate = (view, targetSection = null) => {
+    // Si la vista eliminada 'misiones-mni' es solicitada, redirigirla
+    // a la página principal y posicionarse en la sección de ministerios.
+    if (view === 'misiones-mni') {
+      view = 'home'
+      targetSection = '#ministerios'
+    }
+
+    if (view !== currentView) setCurrentView(view)
     if (isMobile) setIsLoading(true)
+    setScrollTarget(targetSection)
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
@@ -56,6 +65,22 @@ export default function App() {
     return () => clearTimeout(timeout)
   }, [currentView, isMobile])
 
+  useEffect(() => {
+    if (currentView !== 'home' || !scrollTarget) return
+
+    const targetId = scrollTarget.replace('#', '')
+    const element = document.getElementById(targetId)
+    if (element) {
+      const offset = 80
+      const bodyRect = document.body.getBoundingClientRect().top
+      const elementRect = element.getBoundingClientRect().top
+      const elementPosition = elementRect - bodyRect
+      const offsetPosition = elementPosition - offset
+      window.scrollTo({ top: offsetPosition, behavior: 'smooth' })
+    }
+    setScrollTarget(null)
+  }, [currentView, scrollTarget])
+
   const skeletonFallback = (
     <div className="min-h-screen bg-white p-6">
       <div className="mb-6 h-14 rounded-3xl bg-slate-200 animate-pulse" />
@@ -78,7 +103,7 @@ export default function App() {
         {currentView === 'home' && (
           <>
             <Skeleton name="hero-section" loading={isMobile && isLoading} fallback={skeletonFallback}>
-              <Hero />
+              <Hero onNavigate={handleNavigate} />
             </Skeleton>
             <Skeleton name="about-section" loading={isMobile && isLoading} fallback={skeletonFallback}>
               <Nosotros />
@@ -108,67 +133,76 @@ export default function App() {
           </>
         )}
 
-        {currentView === 'english' && (
+        {currentView === 'ruta-tct' && (
           <div className="pt-20">
-            <Skeleton name="english-article-page" loading={isMobile && isLoading} fallback={skeletonFallback}>
-              <EnglishProgramArticle onGoBack={() => handleNavigate('home')} />
+            <Skeleton name="ruta-tct-article-page" loading={isMobile && isLoading} fallback={skeletonFallback}>
+              <RutaTCTArticle onGoBack={() => handleNavigate('home', '#pastores')} />
             </Skeleton>
           </div>
         )}
 
-        {currentView === 'french' && (
+        {currentView === 'tct-jovenes' && (
           <div className="pt-20">
-            <Skeleton name="french-article-page" loading={isMobile && isLoading} fallback={skeletonFallback}>
-              <FrenchProgramArticle onGoBack={() => handleNavigate('home')} />
+            <Skeleton name="tct-jovenes-article-page" loading={isMobile && isLoading} fallback={skeletonFallback}>
+              <TCTJovenesArticle onGoBack={() => handleNavigate('home', '#pastores')} />
             </Skeleton>
           </div>
         )}
 
-        {currentView === 'italian' && (
+        {currentView === 'tct-kids' && (
           <div className="pt-20">
-            <Skeleton name="italian-article-page" loading={isMobile && isLoading} fallback={skeletonFallback}>
-              <ItalianProgramArticle onGoBack={() => handleNavigate('home')} />
+            <Skeleton name="tct-kids-article-page" loading={isMobile && isLoading} fallback={skeletonFallback}>
+              <TCTKidsArticle onGoBack={() => handleNavigate('home', '#pastores')} />
             </Skeleton>
           </div>
         )}
 
-        {currentView === 'online' && (
+        {currentView === 'bautizos' && (
           <div className="pt-20">
-            <Skeleton name="online-article-page" loading={isMobile && isLoading} fallback={skeletonFallback}>
-              <OnlineModeArticle onGoBack={() => handleNavigate('home')} />
+            <Skeleton name="bautizos-article-page" loading={isMobile && isLoading} fallback={skeletonFallback}>
+              <BautizosArticle onGoBack={() => handleNavigate('home', '#ministerios')} />
             </Skeleton>
           </div>
         )}
 
-        {currentView === 'presencial' && (
+        {currentView === 'donaciones' && (
           <div className="pt-20">
-            <Skeleton name="presencial-article-page" loading={isMobile && isLoading} fallback={skeletonFallback}>
-              <PresencialModeArticle onGoBack={() => handleNavigate('home')} />
+            <Skeleton name="donaciones-article-page" loading={isMobile && isLoading} fallback={skeletonFallback}>
+              <DonacionesArticle onGoBack={() => handleNavigate('home', '#ministerios')} />
             </Skeleton>
           </div>
         )}
 
-        {currentView === 'asesoria' && (
-          <div className="pt-[#80px]">
-            <Skeleton name="academic-advising-page" loading={isMobile && isLoading} fallback={skeletonFallback}>
-              <AcademicAdvisingArticle onGoBack={() => handleNavigate('home')} />
-            </Skeleton>
-          </div>
-        )}
-
-        {/* Vista EuroSelf */}
-        {currentView === 'euroself' && (
+        {currentView === 'pastores-juveniles' && (
           <div className="pt-20">
-            <Skeleton name="euroself-article-page" loading={isMobile && isLoading} fallback={skeletonFallback}>
-              <EuroSelfArticle onGoBack={() => handleNavigate('home')} />
+            <Skeleton name="pastores-juveniles-article-page" loading={isMobile && isLoading} fallback={skeletonFallback}>
+              <PastoresJuvenilesArticle onGoBack={() => handleNavigate('home', '#pastores')} />
             </Skeleton>
           </div>
         )}
 
-        {currentView === 'inscription' && (
+        {currentView === 'german-pastor' && (
+          <div className="pt-20">
+            <Skeleton name="german-pastor-article-page" loading={isMobile && isLoading} fallback={skeletonFallback}>
+              <GermanPastorArticle onGoBack={() => handleNavigate('home', '#pastores')} />
+            </Skeleton>
+          </div>
+        )}
+
+        {currentView === 'arely-coyoc' && (
+          <div className="pt-20">
+            <Skeleton name="arely-coyoc-article-page" loading={isMobile && isLoading} fallback={skeletonFallback}>
+              <ArelyCoyocArticle onGoBack={() => handleNavigate('home', '#pastores')} />
+            </Skeleton>
+          </div>
+        )}
+
+        {/* Vista Pastores Juveniles */}
+
+        {currentView === 'transmisiones' && (
           <div className="pt-20">
             <Skeleton name="inscription-page" loading={isMobile && isLoading} fallback={skeletonFallback}>
-              <Inscription onGoBack={() => handleNavigate('home')} />
+              <LiveStreams onGoBack={() => handleNavigate('home')} />
             </Skeleton>
           </div>
         )}
