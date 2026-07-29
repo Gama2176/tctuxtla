@@ -130,9 +130,6 @@ const Footer = ({ onNavigate }) => {
                 <li>
                   <a href="#programas" onClick={(e) => handleScroll(e, '#programas')} className="hover:text-[#4fc1bd] transition-colors">Servicio</a>
                 </li>
-                <li>
-                  <a href="#misiones-mni" onClick={(e) => handlePage(e, 'misiones-mni')} className="hover:text-[#4fc1bd] transition-colors">Misiones (MNI)</a>
-                </li>
               </ul>
             </div>
 
@@ -152,7 +149,7 @@ const Footer = ({ onNavigate }) => {
                   <a href="https://www.youtube.com" target="_blank" rel="noreferrer" className="hover:text-[#4fc1bd] transition-colors">YouTube</a>
                 </li>
                 <li>
-                  <a href="https://wa.me/521" target="_blank" rel="noreferrer" className="hover:text-[#4fc1bd] transition-colors">WhatsApp</a>
+                  <a href="https://wa.me/529611311868" target="_blank" rel="noreferrer" className="hover:text-[#4fc1bd] transition-colors">WhatsApp</a>
                 </li>
               </ul>
             </div>

@@ -49,11 +49,11 @@ export default function ArelyCoyocArticle({ onGoBack }) {
         </div>
 
         {/* Imagen Principal */}
-        <div className="relative h-[280px] overflow-hidden rounded-2xl border border-[#E4E4E7]/70 shadow-2xs sm:h-[380px] lg:h-[420px]">
+        <div className="relative overflow-hidden rounded-2xl border border-[#E4E4E7]/70 shadow-2xs bg-white max-h-[420px]">
           <img
             src={arelyCoyocImg}
             alt="Directora de adoración Arely Coyoc"
-            className="h-full w-full object-cover object-center"
+            className="w-full h-auto object-contain object-center"
           />
         </div>
 

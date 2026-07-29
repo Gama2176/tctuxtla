@@ -50,11 +50,11 @@ export default function RutaTCTArticle({ onGoBack }) {
         </div>
 
         {/* Imagen Principal Hero */}
-        <div className="relative overflow-hidden rounded-2xl border border-[#E4E4E7]/70 shadow-2xs h-[280px] sm:h-[380px] lg:h-[420px]">
+        <div className="relative overflow-hidden rounded-2xl border border-[#E4E4E7]/70 shadow-2xs bg-white max-h-[420px]">
           <img
             src={heroImg}
             alt="Ruta TCT - Proceso de Crecimiento"
-            className="h-full w-full object-cover object-center"
+            className="w-full h-auto object-contain object-center"
           />
         </div>
 

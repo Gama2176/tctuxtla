@@ -52,7 +52,7 @@ export default function GermanPastorArticle({ onGoBack }) {
           <img
             src={heroImg}
             alt="Pastores Germán Picavea y Patricia Pandolfo"
-            className=" will-change-auto object-cover"
+            className="w-full h-full object-cover object-center will-change-auto"
           />
         </div>
 
@@ -138,7 +138,7 @@ export default function GermanPastorArticle({ onGoBack }) {
                   <img
                     src={galleryImg2}
                     alt="Dirección y enseñanza pastoral en TCT"
-                    className="h-50 w-full object-cover transition-transform duration-300 hover:scale-105"
+                    className="h-full w-full object-cover object-center transition-transform duration-300 hover:scale-105"
                   />
                 </div>
               </div>

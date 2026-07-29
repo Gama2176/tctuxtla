@@ -132,7 +132,7 @@ export default function FAQSection({ onNavigateToContact }) {
           <p className="text-xs text-[#808080]">
             ¿Tienes otra duda?{' '}
             <a
-              href="#contacto"
+              href="#contactform"
               onClick={(e) => {
                 if (onNavigateToContact) {
                   e.preventDefault();

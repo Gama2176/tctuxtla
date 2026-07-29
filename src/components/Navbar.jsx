@@ -7,14 +7,111 @@ import {
   HelpCircle, 
   ArrowUpRight, 
   MapPin, 
-  Radio
+  Radio,
+  Calendar,
+  Clock
 } from 'lucide-react';
 
-import worship from '../images/tct-jovenes.jpg';
+// Imports de imágenes
+import slide1 from '../images/campamentotct.jpg';
+import slide2 from '../images/pastores-tct.jpg';
+import slide3 from '../images/mision-tct.jpg';
+import slide4 from '../images/contacto-tct.jpg';
 import logoImage from '../images/logo-tct.svg'; 
+
+function CarouselArea({ slides = [], onSlideClick, open, onNavigate }) {
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    if (!open) return undefined;
+    const id = setInterval(() => {
+      setIndex((i) => (i + 1) % slides.length);
+    }, 4500);
+    return () => clearInterval(id);
+  }, [open, slides.length]);
+
+  if (!slides || slides.length === 0) return null;
+
+  return (
+    <div className="relative w-full h-[280px] rounded-2xl overflow-hidden shadow-sm group/carousel cursor-pointer">
+      {slides.map((s, i) => (
+        <div
+          key={i}
+          className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${
+            i === index && open ? 'opacity-100 z-10 pointer-events-auto' : 'opacity-0 z-0 pointer-events-none'
+          }`}
+          onClick={() => open && onSlideClick && onSlideClick(s)}
+        >
+          {/* Imagen de Fondo con efecto de zoom suave */}
+          <div 
+            className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover/carousel:scale-105"
+            style={{ backgroundImage: `url(${s.img})` }}
+          />
+
+          {/* Sombra/Gradiente para legibilidad del texto */}
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/40 to-black/30" />
+
+          {/* Encabezado del Slide */}
+          <div className="relative z-10 flex justify-between items-start p-5">
+            <span className="inline-block bg-[#4FC1BD] text-white text-[10px] font-extrabold tracking-wider uppercase px-3 py-1 rounded-full shadow-sm">
+              {s.tag}
+            </span>
+            <div
+              className="w-9 h-9 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white transition-all duration-300 hover:bg-white hover:text-slate-950 cursor-pointer"
+              onClick={(e) => { 
+                e.stopPropagation(); 
+                if (open && onNavigate) onNavigate('#ministerios'); 
+              }}
+              title="Ver más avisos"
+            >
+              <ArrowUpRight className="w-5 h-5" />
+            </div>
+          </div>
+
+          {/* Contenido Inferior */}
+          <div className="absolute bottom-0 inset-x-0 z-10 p-5 flex items-end justify-between gap-4 bg-gradient-to-t from-black/80 to-transparent">
+            <div className="pr-12">
+              <h3 className="text-xl font-extrabold text-white leading-tight tracking-tight drop-shadow-sm">
+                {s.title}
+              </h3>
+              <p className="text-xs text-slate-200 font-medium mt-1 line-clamp-1">
+                {s.subtitle}
+              </p>
+            </div>
+            
+            <div className="text-right shrink-0">
+              <span className="inline-block px-2.5 py-1 rounded-lg bg-black/40 backdrop-blur-md text-xs font-bold text-[#4FC1BD] border border-white/10">
+                {s.time}
+              </span>
+            </div>
+          </div>
+        </div>
+      ))}
+
+      {/* Indicadores de Puntos (Dots) */}
+      <div className={`absolute left-5 bottom-3 flex gap-1.5 z-20 ${open ? 'pointer-events-auto' : 'pointer-events-none'}`}>
+        {slides.map((_, i) => (
+          <button
+            key={i}
+            type="button"
+            onClick={(e) => { 
+              e.stopPropagation(); 
+              if (open) setIndex(i); 
+            }}
+            className={`h-1.5 rounded-full transition-all duration-300 ${
+              i === index ? 'w-6 bg-[#4FC1BD]' : 'w-1.5 bg-white/50 hover:bg-white'
+            }`}
+            aria-label={`Ir al aviso ${i + 1}`}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
 
 const Navbar = ({ onNavigate, currentView = 'home' }) => {
   const [desktopMenuOpen, setDesktopMenuOpen] = useState(false);
+  const [selectedNotice, setSelectedNotice] = useState(null);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [logoAvailable, setLogoAvailable] = useState(true);
@@ -88,7 +185,6 @@ const Navbar = ({ onNavigate, currentView = 'home' }) => {
     }
   };
 
-  // Subrutas secundarias para el menú desplegable 'Más' en Desktop
   const dropdownLinks = [
     {
       name: 'Dónde estamos',
@@ -110,7 +206,6 @@ const Navbar = ({ onNavigate, currentView = 'home' }) => {
     }
   ];
 
-  // Lista maquetada con el orden exacto solicitado
   const navLinks = [
     { name: 'Inicio', href: '#inicio' },
     { name: 'Nosotros', href: '#nosotros' },
@@ -122,8 +217,42 @@ const Navbar = ({ onNavigate, currentView = 'home' }) => {
     { name: 'Preguntas', href: '#preguntas' },
   ];
 
-  // Separación para Desktop: Primeros 5 visibles, los demás dentro de "Más"
   const desktopMainLinks = navLinks.slice(0, 5);
+
+  const noticesList = [
+    { 
+      img: slide1, 
+      tag: 'TCT Kids', 
+      title: 'Campamento infantil TCT 2026', 
+      subtitle: 'Información detallada en la iglesia', 
+      time: 'Del 6 al 8 de agosto', 
+      details: 'Más información sobre nuestro campamento infantil en la iglesia, pregunta acerca de las actividades recreativas, enseñanza bíblica y momentos de adoración para los niños de nuestra comunidad.' 
+    },
+    { 
+      img: slide2, 
+      tag: 'Aviso Semanal', 
+      title: 'Servicio Dominical Dominical', 
+      subtitle: 'Auditorio principal', 
+      time: 'Domingo • 11:30 am', 
+      details: 'Acompáñanos a celebrar juntos nuestro servicio dominical. Tendremos tiempo de alabanza congregacional, oración por las familias y la predicación de la Palabra.' 
+    },
+    { 
+      img: slide3, 
+      tag: 'Misión', 
+      title: 'Salida Misionera Local', 
+      subtitle: 'Proyecto Comunitario', 
+      time: 'Próximo mes', 
+      details: 'Únete a nuestro equipo de impacto social e itinerante. Estaremos llevando ayuda alimentaria y apoyo espiritual a las zonas más vulnerables de nuestra ciudad.' 
+    },
+    { 
+      img: slide4, 
+      tag: 'Contacto & Apoyo', 
+      title: 'Jornada de Servicio y Oración', 
+      subtitle: 'Centro social TCT', 
+      time: 'Viernes • 5:00 pm', 
+      details: 'Un espacio dedicado para atender peticiones de oración, consejería familiar y entrega de donaciones recibidas durante la semana.' 
+    },
+  ];
 
   return (
     <nav className="fixed inset-x-0 top-0 z-50 transition-all duration-300" ref={menuRef}>
@@ -167,7 +296,7 @@ const Navbar = ({ onNavigate, currentView = 'home' }) => {
             {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
 
-          {/* NAV LINKS - DESKTOP (Actualizados con el nuevo orden) */}
+          {/* NAV LINKS - DESKTOP */}
           <div className="hidden md:flex items-center gap-4 lg:gap-6 text-slate-900 font-medium text-sm">
             {desktopMainLinks.map((link) => (
               <a 
@@ -193,13 +322,17 @@ const Navbar = ({ onNavigate, currentView = 'home' }) => {
               </button>
 
               <div 
-                className={`absolute left-1/2 -translate-x-1/2 mt-4 w-[780px] lg:w-[840px] bg-white rounded-3xl shadow-2xl border border-slate-100 p-6 grid grid-cols-12 gap-6 transition-all duration-300 transform origin-top ${
+                className={`absolute left-1/2 -translate-x-1/2 mt-4 w-[840px] bg-white rounded-3xl shadow-2xl border border-slate-100 p-6 grid grid-cols-12 gap-6 transition-all duration-300 transform origin-top ${
                   desktopMenuOpen 
                     ? 'opacity-100 scale-100 pointer-events-auto translate-y-0' 
                     : 'opacity-0 scale-95 pointer-events-none -translate-y-2'
                 }`}
               >
-                <div className="col-span-5 flex flex-col justify-center space-y-2 border-r border-slate-100 pr-4">
+                {/* Opciones de la Izquierda */}
+                <div className="col-span-5 flex flex-col justify-center space-y-1.5 border-r border-slate-100 pr-4">
+                  <p className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400 px-3 mb-1">
+                    Secciones rápidas
+                  </p>
                   {dropdownLinks.map((item) => {
                     const IconComponent = item.icon;
                     return (
@@ -225,38 +358,14 @@ const Navbar = ({ onNavigate, currentView = 'home' }) => {
                   })}
                 </div>
 
-                <div
-                  className="col-span-7 relative rounded-2xl overflow-hidden p-6 flex flex-col justify-between text-white group/card cursor-pointer min-h-[220px] shadow-md transition-transform duration-300 hover:scale-[1.01]"
-                  style={{
-                    backgroundImage: `url(${worship})`,
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center',
-                  }}
-                  onClick={(e) => handleNavClick(e, '#ministerios')}
-                >
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/40 to-black/20 group-hover/card:from-slate-950/80 transition-all"></div>
-                  
-                  <div className="relative z-10 flex justify-between items-start">
-                    <span className="inline-block bg-black/40 backdrop-blur-md text-[10px] font-bold tracking-wider uppercase px-3 py-1 rounded-full border border-white/10">
-                      Worship & Devotion
-                    </span>
-                    <div className="w-8 h-8 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white transition-all duration-300 group-hover/card:bg-white group-hover/card:text-slate-950">
-                      <ArrowUpRight className="w-4 h-4" />
-                    </div>
-                  </div>
-
-                  <div className="relative z-10 mt-8 pt-3 border-t border-white/20 flex items-end justify-between">
-                    <div>
-                      <h3 className="text-lg font-extrabold leading-tight tracking-tight">
-                        Reunión de jóvenes
-                      </h3>
-                      <p className="text-xs text-slate-300 font-medium mt-0.5">Nave principal</p>
-                    </div>
-                    <div className="text-right">
-                      <span className="block text-xl font-black tracking-tight text-[#4FC1BD]">Sábado</span>
-                      <span className="text-xs font-semibold text-slate-200">6:30 pm</span>
-                    </div>
-                  </div>
+                {/* Área de Avisos Destacados / Carrusel */}
+                <div className="col-span-7 flex flex-col justify-center">
+                  <CarouselArea
+                    slides={noticesList}
+                    onSlideClick={(slide) => setSelectedNotice(slide)}
+                    open={desktopMenuOpen}
+                    onNavigate={handleNavClick}
+                  />
                 </div>
               </div>
             </div>
@@ -339,6 +448,80 @@ const Navbar = ({ onNavigate, currentView = 'home' }) => {
           </p>
         </div>
       </aside>
+
+      {/* MODAL DETALLES DEL AVISO */}
+      {selectedNotice && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 animate-fadeIn">
+          {/* Fondo oscuro traslúcido */}
+          <div 
+            className="absolute inset-0 bg-slate-900/60 backdrop-blur-xs transition-opacity" 
+            onClick={() => setSelectedNotice(null)} 
+          />
+          
+          {/* Contenedor Principal del Modal */}
+          <div className="relative z-10 w-full max-w-lg rounded-3xl bg-white shadow-2xl overflow-hidden border border-slate-100 flex flex-col max-h-[90vh]">
+            
+            {/* Imagen Superior del Modal */}
+            <div className="relative h-48 sm:h-56 w-full shrink-0">
+              <img 
+                src={selectedNotice.img} 
+                alt={selectedNotice.title} 
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent" />
+              
+              <button 
+                type="button"
+                onClick={() => setSelectedNotice(null)} 
+                className="absolute top-4 right-4 w-8 h-8 rounded-full bg-black/50 text-white backdrop-blur-md flex items-center justify-center hover:bg-black transition cursor-pointer"
+              >
+                <X className="w-4 h-4" />
+              </button>
+
+              <span className="absolute bottom-4 left-4 inline-block bg-[#4FC1BD] text-white text-[10px] font-extrabold uppercase tracking-wider px-3 py-1 rounded-full">
+                {selectedNotice.tag}
+              </span>
+            </div>
+
+            {/* Contenido del Modal */}
+            <div className="p-6 overflow-y-auto space-y-4">
+              <div>
+                <h3 className="text-xl font-extrabold text-slate-900 leading-tight">
+                  {selectedNotice.title}
+                </h3>
+                <div className="flex flex-wrap gap-4 mt-2 text-xs font-semibold text-slate-500">
+                  <span className="flex items-center gap-1.5">
+                    <Calendar className="w-3.5 h-3.5 text-[#4FC1BD]" />
+                    {selectedNotice.time}
+                  </span>
+                  <span className="flex items-center gap-1.5">
+                    <Clock className="w-3.5 h-3.5 text-[#4FC1BD]" />
+                    {selectedNotice.subtitle}
+                  </span>
+                </div>
+              </div>
+
+              <hr className="border-slate-100" />
+
+              <p className="text-sm text-slate-600 leading-relaxed">
+                {selectedNotice.details}
+              </p>
+            </div>
+
+            {/* Footer del Modal con Botón de Cierre */}
+            <div className="p-4 bg-slate-50 border-t border-slate-100 flex justify-end">
+              <button 
+                type="button"
+                onClick={() => setSelectedNotice(null)} 
+                className="px-5 py-2.5 rounded-xl bg-[#4FC1BD] text-white text-xs font-bold hover:bg-[#3db0ac] transition shadow-xs cursor-pointer"
+              >
+                Entendido / Cerrar
+              </button>
+            </div>
+
+          </div>
+        </div>
+      )}
     </nav>
   );
 };

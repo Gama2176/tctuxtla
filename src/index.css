@@ -24,24 +24,9 @@
   transform: translateY(-1px);
 }
 
-.logo-sep:hover {
-  filter: hue-rotate(190deg) saturate(1.7) brightness(1.02);
-}
-
-.logo-richmond:hover {
-  filter: hue-rotate(205deg) saturate(1.6) brightness(1.02);
-}
-
-.logo-ed:hover {
-  filter: hue-rotate(15deg) saturate(1.7) brightness(1.05);
-}
-
-.logo-toeic:hover {
-  filter: hue-rotate(350deg) saturate(1.8) brightness(1.02);
-}
-
-.logo-conni:hover {
-  filter: hue-rotate(125deg) saturate(1.7) brightness(1.02);
+.partner-logo:hover {
+  filter: saturate(1.15) brightness(1.02);
+  transform: translateY(-1px);
 }
 
 html {

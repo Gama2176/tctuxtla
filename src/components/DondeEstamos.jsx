@@ -26,14 +26,14 @@ const WhereWeAreSection = () => {
           {/* Botones de acción centrados */}
           <div className="flex items-center justify-center gap-3 pt-2">
             <a
-              href="#sedes"
+              href="https://maps.app.goo.gl/BBJe8r6MnEYVu5CAA"
               className="px-5 py-2.5 bg-[#4fc1bd] text-white rounded-xl text-xs font-bold hover:bg-[#43aba7] active:scale-95 transition-all shadow-xs inline-flex items-center gap-1.5"
             >
               <MapPin className="w-3.5 h-3.5" />
               Ver Ubicación
             </a>
             <a
-              href="#contacto"
+              href="#contactform"
               className="px-5 py-2.5 bg-slate-50 border border-slate-200 text-[#111111] rounded-xl text-xs font-bold hover:bg-slate-100 active:scale-95 transition-all shadow-2xs inline-flex items-center gap-1.5"
             >
               <MessageCircle className="w-3.5 h-3.5 text-slate-600" />
